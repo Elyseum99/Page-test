@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IOS — Identité, Offre, Système</title>
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --card: rgba(255,255,255,0.06);
+      --card-soft: rgba(255,255,255,0.035);
+      --text: #f6f0e7;
+      --muted: #b9b0a4;
+      --muted-2: #8d857b;
+      --gold: #d8aa4f;
+      --gold-soft: rgba(216,170,79,0.14);
+      --blue: #8fb5ff;
+      --green: #8bd3ad;
+      --border: rgba(246,240,231,0.12);
+      --radius: 28px;
+      --shadow: 0 24px 80px rgba(0,0,0,0.32);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(216,170,79,.20), transparent 32%),
+        radial-gradient(circle at top right, rgba(143,181,255,.14), transparent 30%),
+        linear-gradient(180deg, #11141c 0%, #0b0d12 48%, #07080c 100%);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 28px 18px 56px;
+    }
+
+    .page { max-width: 1120px; margin: 0 auto; }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(11,13,18,.72);
+      backdrop-filter: blur(16px);
+      margin-bottom: 58px;
+      position: sticky;
+      top: 16px;
+      z-index: 10;
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), #f0d184);
+      color: #17120a;
+      display: grid;
+      place-items: center;
+      font-weight: 1000;
+    }
+
+    .nav-links { display: flex; gap: 18px; color: var(--muted); font-size: 14px; }
+    .nav-links a { color: inherit; text-decoration: none; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 44px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(216,170,79,.3);
+      color: #f0d184;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 16px var(--green);
+    }
+
+    h1 {
+      font-size: clamp(42px, 6vw, 78px);
+      line-height: .96;
+      letter-spacing: -.065em;
+      margin-bottom: 24px;
+    }
+
+    h1 span { color: var(--gold); }
+
+    .lead {
+      font-size: clamp(18px, 2vw, 23px);
+      color: var(--muted);
+      max-width: 780px;
+      margin-bottom: 26px;
+    }
+
+    .lead strong { color: var(--text); }
+
+    .hero-note {
+      border-left: 4px solid var(--gold);
+      background: rgba(255,255,255,.045);
+      padding: 18px 20px;
+      border-radius: 16px;
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .visual-card {
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      background: linear-gradient(145deg, rgba(255,255,255,.085), rgba(255,255,255,.035));
+      box-shadow: var(--shadow);
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .map {
+      display: grid;
+      gap: 14px;
+    }
+
+    .map-step {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(255,255,255,.045);
+    }
+
+    .map-letter {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--gold-soft);
+      color: #f0d184;
+      display: grid;
+      place-items: center;
+      font-weight: 1000;
+      font-size: 24px;
+    }
+
+    .map-step h3 { font-size: 19px; margin-bottom: 4px; }
+    .map-step p { color: var(--muted); font-size: 14px; }
+
+    section { margin-top: 30px; }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 1fr .9fr;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .kicker {
+      color: #f0d184;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: clamp(30px, 4vw, 50px);
+      line-height: 1;
+      letter-spacing: -.052em;
+    }
+
+    .section-head p { color: var(--muted); }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      padding: 26px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.18);
+      backdrop-filter: blur(14px);
+    }
+
+    .card h3 {
+      font-size: 23px;
+      line-height: 1.12;
+      letter-spacing: -.03em;
+      margin-bottom: 12px;
+    }
+
+    .card p, .card li { color: var(--muted); }
+
+    .icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      font-size: 22px;
+    }
+
+    .soft {
+      background: linear-gradient(145deg, rgba(216,170,79,.12), rgba(255,255,255,.04));
+      border-color: rgba(216,170,79,.26);
+    }
+
+    .list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 1000;
+    }
+
+    .explain {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .quote {
+      font-size: 24px;
+      line-height: 1.25;
+      letter-spacing: -.03em;
+      color: var(--text);
+    }
+
+    .muted { color: var(--muted); }
+
+    .timeline {
+      display: grid;
+      gap: 13px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 50px 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--border);
+    }
+
+    .num {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(143,181,255,.13);
+      color: #cfe0ff;
+      font-weight: 1000;
+    }
+
+    .step h3 { margin-bottom: 5px; }
+    .step p { color: var(--muted); font-size: 14px; }
+
+    .ai-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .agent-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .agent {
+      display: flex;
+      gap: 13px;
+      padding: 15px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--border);
+    }
+
+    .agent b { display: block; margin-bottom: 3px; }
+    .agent p { font-size: 14px; }
+    .agent span { color: var(--gold); font-weight: 1000; }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .before li::before { content: "•"; color: var(--muted-2); }
+    .after li::before { content: "✓"; color: var(--green); }
+
+    .audience {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255,255,255,.035);
+      font-size: 14px;
+    }
+
+    .final {
+      text-align: center;
+      border: 1px solid rgba(216,170,79,.28);
+      border-radius: 34px;
+      background: radial-gradient(circle at top, rgba(216,170,79,.18), transparent 42%), rgba(255,255,255,.045);
+      padding: 46px 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .final p {
+      max-width: 760px;
+      margin: 16px auto 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    @media (max-width: 920px) {
+      .hero, .section-head, .explain, .ai-box, .before-after, .audience { grid-template-columns: 1fr; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 16px 12px 40px; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      h1 { font-size: 48px; }
+      .card { padding: 21px; }
+      .step, .map-step { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="brand"><span class="brand-mark">I</span> IOS</div>
+      <div class="nav-links">
+        <a href="#pourquoi">Pourquoi</a>
+        <a href="#methode">Méthode</a>
+        <a href="#ia">IA</a>
+        <a href="#resultat">Résultat</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Identité · Offre · Système</div>
+        <h1>Construire une activité claire, cohérente et mieux structurée <span>avec l’IA.</span></h1>
+        <p class="lead">
+          IOS est une méthode d’accompagnement pensée pour les coachs, consultants et experts qui ont de la valeur à transmettre, mais qui sentent que leur activité manque encore de clarté, de structure ou de régularité.
+        </p>
+        <div class="hero-note">
+          L’objectif n’est pas de “faire de l’IA pour faire de l’IA”. L’objectif est de clarifier ce que tu portes, structurer ce que tu vends, puis créer un environnement intelligent qui t’aide à avancer au quotidien.
+        </div>
+      </div>
+
+      <aside class="visual-card">
+        <div class="map">
+          <div class="map-step">
+            <div class="map-letter">I</div>
+            <div><h3>Identité</h3><p>Comprendre qui tu es, ce que tu défends, ce qui te rend crédible et différent.</p></div>
+          </div>
+          <div class="map-step">
+            <div class="map-letter">O</div>
+            <div><h3>Offre</h3><p>Transformer ton expertise en proposition lisible, utile et désirable.</p></div>
+          </div>
+          <div class="map-step">
+            <div class="map-letter">S</div>
+            <div><h3>Système</h3><p>Organiser l’acquisition, la conversion, la livraison et le suivi avec l’aide de l’IA.</p></div>
+          </div>
+        </div>
+      </aside>
+    </header>
+
+    <section id="pourquoi">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Le constat</div>
+          <h2>Beaucoup d’experts ne manquent pas de compétence. Ils manquent de structure.</h2>
+        </div>
+        <p>Quand on lance ou développe une activité en ligne, le problème n’est pas toujours visible au départ. On pense manquer de contenu, de visibilité ou d’outils. En réalité, le blocage est souvent plus profond.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <div class="icon">?</div>
+          <h3>Le message n’est pas clair</h3>
+          <p>Tu sais ce que tu fais, mais les autres ne comprennent pas immédiatement ta valeur, ta différence ou ton angle.</p>
+        </article>
+        <article class="card">
+          <div class="icon">◌</div>
+          <h3>L’offre reste floue</h3>
+          <p>Tu accompagnes réellement, mais ton offre n’est pas encore assez structurée pour être expliquée, vendue et répétée simplement.</p>
+        </article>
+        <article class="card">
+          <div class="icon">↻</div>
+          <h3>Tout repose sur toi</h3>
+          <p>Contenu, prospection, réponses, livrables, suivi : l’activité dépend trop de ton énergie, de ta mémoire et de ton improvisation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="explain">
+      <div class="card soft">
+        <p class="quote">“Une activité solide ne commence pas par plus d’outils. Elle commence par une meilleure compréhension de ce que l’on veut construire.”</p>
+      </div>
+      <div class="card">
+        <h3>Pourquoi IOS existe</h3>
+        <p class="muted">IOS sert à remettre les choses dans le bon ordre. Avant de publier plus, vendre plus ou automatiser plus, il faut clarifier les fondations : ton identité professionnelle, ton offre, puis ton système d’exécution.</p>
+        <ul class="list">
+          <li>Éviter de copier les méthodes génériques du marché.</li>
+          <li>Construire une activité alignée avec ta posture réelle.</li>
+          <li>Créer des outils IA utiles parce qu’ils reposent sur une stratégie claire.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="methode">
+      <div class="section-head">
+        <div>
+          <div class="kicker">La méthode</div>
+          <h2>Trois étapes pour rendre ton activité plus lisible et plus solide.</h2>
+        </div>
+        <p>Chaque étape répond à une question simple. Qui suis-je dans mon marché ? Qu’est-ce que je propose vraiment ? Comment mon activité fonctionne concrètement ?</p>
+      </div>
+      <div class="grid-3">
+        <article class="card soft">
+          <h3>1. Identité</h3>
+          <p>On clarifie ta philosophie, ton histoire, tes compétences, tes convictions, ta posture et tes singularités.</p>
+          <ul class="list">
+            <li>Ce que tu portes</li>
+            <li>Ce que tu refuses</li>
+            <li>Ce qui te rend légitime</li>
+            <li>Ton angle différenciant</li>
+          </ul>
+        </article>
+        <article class="card soft">
+          <h3>2. Offre</h3>
+          <p>On transforme ton expertise en offre compréhensible, structurée et alignée avec un vrai besoin client.</p>
+          <ul class="list">
+            <li>Client idéal</li>
+            <li>Problème prioritaire</li>
+            <li>Promesse claire</li>
+            <li>Parcours d’accompagnement</li>
+          </ul>
+        </article>
+        <article class="card soft">
+          <h3>3. Système</h3>
+          <p>On organise ce qui permet à ton activité de fonctionner sans repartir de zéro à chaque fois.</p>
+          <ul class="list">
+            <li>Acquisition</li>
+            <li>Conversion</li>
+            <li>Livrables</li>
+            <li>Suivi client</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">Le parcours</div>
+          <h2>Un chemin simple, progressif et concret.</h2>
+        </div>
+        <p>La méthode évite de tout mélanger. Elle avance par couches successives : comprendre, formuler, structurer, puis seulement automatiser.</p>
+      </div>
+      <div class="timeline">
+        <div class="step"><div class="num">01</div><div><h3>État des lieux</h3><p>Comprendre ton activité actuelle, tes forces, tes blocages, tes objectifs et ce qui manque de clarté.</p></div></div>
+        <div class="step"><div class="num">02</div><div><h3>Clarification identitaire</h3><p>Faire émerger ta posture, ton histoire utile, tes compétences clés et ta façon unique d’accompagner.</p></div></div>
+        <div class="step"><div class="num">03</div><div><h3>Structuration de l’offre</h3><p>Créer une proposition compréhensible, avec une cible, une promesse, une transformation et un cadre.</p></div></div>
+        <div class="step"><div class="num">04</div><div><h3>Construction du système</h3><p>Définir comment attirer, convertir, livrer et suivre les clients avec des processus simples.</p></div></div>
+        <div class="step"><div class="num">05</div><div><h3>Création de l’écosystème IA</h3><p>Configurer des assistants IA et un environnement Claude Code pour soutenir l’exécution quotidienne.</p></div></div>
+      </div>
+    </section>
+
+    <section id="ia">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Le rôle de l’IA</div>
+          <h2>L’IA devient utile quand elle comprend ton activité.</h2>
+        </div>
+        <p>Pour un public peu conscient, l’IA peut sembler abstraite ou intimidante. Dans IOS, elle est rendue concrète : elle sert à organiser, produire, documenter et accompagner l’exécution.</p>
+      </div>
+      <div class="ai-box">
+        <div class="card">
+          <h3>Ce que l’écosystème IA peut aider à faire</h3>
+          <ul class="list">
+            <li>Transformer tes idées en contenus cohérents.</li>
+            <li>Préparer tes appels de vente et tes relances.</li>
+            <li>Créer des documents, checklists et supports clients.</li>
+            <li>Centraliser ta méthode, tes décisions et tes processus.</li>
+            <li>Garder une continuité entre stratégie, contenu, vente et livraison.</li>
+          </ul>
+        </div>
+        <div class="card soft">
+          <h3>Ce que l’IA ne remplace pas</h3>
+          <p class="muted">Elle ne remplace pas ton expérience, ta finesse, ton éthique, ton intuition ou ta relation client. Elle sert de support opérationnel pour mieux exprimer et organiser ce que tu portes déjà.</p>
+          <div class="badge-row">
+            <span class="badge">Copilote</span>
+            <span class="badge">Mémoire active</span>
+            <span class="badge">Assistant d’exécution</span>
+            <span class="badge">Système de support</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">Les agents</div>
+          <h2>Une équipe virtuelle au service de ton activité.</h2>
+        </div>
+        <p>Chaque agent a un rôle précis. L’idée n’est pas d’avoir beaucoup d’outils, mais d’avoir les bons assistants pour les bons moments.</p>
+      </div>
+      <div class="agent-list">
+        <div class="agent"><span>01</span><div><b>Agent Stratégie</b><p>Aide à clarifier les décisions, les priorités, les angles et la cohérence générale.</p></div></div>
+        <div class="agent"><span>02</span><div><b>Agent Offre</b><p>Aide à structurer la promesse, les modules, les bénéfices, les objections et les livrables.</p></div></div>
+        <div class="agent"><span>03</span><div><b>Agent Contenu</b><p>Aide à transformer tes idées, expériences et convictions en contenus utiles et alignés.</p></div></div>
+        <div class="agent"><span>04</span><div><b>Agent Conversion</b><p>Aide à préparer les appels, les messages, les relances et les réponses aux objections.</p></div></div>
+        <div class="agent"><span>05</span><div><b>Agent Livraison</b><p>Aide à organiser les supports, comptes rendus, plans d’action, suivis et documents clients.</p></div></div>
+      </div>
+    </section>
+
+    <section id="resultat">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Avant / Après</div>
+          <h2>Le changement recherché.</h2>
+        </div>
+        <p>IOS ne promet pas une activité magique. Il vise une activité plus claire, mieux organisée et plus facile à piloter.</p>
+      </div>
+      <div class="before-after">
+        <div class="card before">
+          <h3>Avant</h3>
+          <ul class="list">
+            <li>Un message difficile à expliquer.</li>
+            <li>Une offre qui change souvent.</li>
+            <li>Une acquisition irrégulière.</li>
+            <li>Des contenus produits au feeling.</li>
+            <li>Un suivi client peu documenté.</li>
+            <li>Une impression de toujours repartir de zéro.</li>
+          </ul>
+        </div>
+        <div class="card after soft">
+          <h3>Après</h3>
+          <ul class="list">
+            <li>Une identité professionnelle plus lisible.</li>
+            <li>Une offre claire et mieux structurée.</li>
+            <li>Des messages plus cohérents.</li>
+            <li>Des processus simples pour avancer.</li>
+            <li>Un écosystème IA pour soutenir l’exécution.</li>
+            <li>Une activité plus facile à comprendre, vendre et livrer.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="audience">
+      <div class="card">
+        <h2>À qui s’adresse IOS ?</h2>
+        <p class="muted" style="margin-top:14px;">Aux coachs, consultants, formateurs ou experts de l’accompagnement qui ont déjà une compétence réelle, une expérience ou de premières ventes, mais qui veulent rendre leur activité plus claire, plus professionnelle et plus structurée.</p>
+        <div class="badge-row">
+          <span class="badge">Coach</span>
+          <span class="badge">Consultant</span>
+          <span class="badge">Formateur</span>
+          <span class="badge">Expert indépendant</span>
+        </div>
+      </div>
+      <div class="card soft">
+        <h3>Ce n’est pas idéal si...</h3>
+        <ul class="list before">
+          <li>Tu cherches une solution miracle sans implication.</li>
+          <li>Tu veux automatiser avant de clarifier ton offre.</li>
+          <li>Tu n’as encore aucune compétence ou matière à structurer.</li>
+          <li>Tu veux copier un modèle sans construire le tien.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="final">
+      <div class="kicker">En résumé</div>
+      <h2>IOS aide à passer d’une expertise dispersée à une activité structurée, soutenue par l’IA.</h2>
+      <p>La méthode part de l’humain, clarifie l’offre, puis utilise l’IA comme levier d’organisation et d’exécution. Sobrement, concrètement, sans gadget.</p>
+    </section>
+  </main>
+</body>
+</html>
